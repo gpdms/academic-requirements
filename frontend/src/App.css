@@ -28,6 +28,16 @@ main { max-width: 1800px; margin: 0 auto; padding: 15px clamp(14px, 1.65vw, 28px
 .results { display: grid; gap: 19px; }
 .panel { border: 1px solid #cddbd7; border-radius: 10px; overflow: hidden; background: #ffffffa6; }
 .panel h2 { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 7px 16px; background: #e4eeee; color: #00462f; font-size: 1.375rem; line-height: 1.2; letter-spacing: -.035em; }
+.panel h2.requirements-heading {
+  flex-wrap: wrap;
+}
+
+.requirements-heading-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-inline-start: auto;
+}
 .panel h2 svg { width: 34px; height: 30px; flex: 0 0 auto; }
 .panel h2 small { font-size: .84em; }
 .student dl { display: grid; grid-template-columns: 1fr 1.14fr 1.1fr .97fr 1.08fr; gap: 12px; padding: 11px 16px 15px; }
@@ -46,7 +56,7 @@ td { padding: 4px 8px; }
 .courses table { min-width: 760px; }
 .courses td:nth-child(5) { width: 26.4%; padding-left: 16px; text-align: left; }
 
-.requirement-grid { display: grid; grid-template-columns: minmax(0, .984fr) minmax(0, 1fr); gap: 15px; margin-top: 8px; }
+.requirement-grid { display: grid; grid-template-columns: minmax(0, .984fr) minmax(0, 1fr); align-items: start; gap: 15px; margin-top: 8px; }
 .requirements { display: flex; flex-direction: column; border-color: var(--outline); }
 .requirements h2 { min-height: 52px; padding-inline: 20px; background: var(--heading); color: var(--heading-ink); }
 .requirements h2 svg { color: var(--icon); }
@@ -60,7 +70,7 @@ td { padding: 4px 8px; }
 .requirements th:nth-child(2) { width: 24%; }
 .requirements th:nth-child(3) { width: 36%; }
 .requirements th:last-child { width: 15%; }
-.degree { --outline: #e3d2af; --heading: #f8efdd; --heading-ink: #16120a; --icon: #76500a; --summary: #fbedd1; }
+.degree { --outline: #b9d9ee; --heading: #e3f3ff; --heading-ink: #153c57; --icon: #286b96; --summary: #d9eeff;}
 .degree td { padding-block: 8px; }
 .certificate { --outline: #c4baff; --heading: #eae8fc; --heading-ink: #100d60; --icon: #5b4ca8; --summary: #dad7fa; }
 .final-result { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px clamp(16px, 2.7vw, 42px); min-height: 65px; padding: 8px; border-radius: 10px; background: var(--summary); font-size: 1.45rem; }

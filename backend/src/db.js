@@ -1,0 +1,12 @@
+import 'dotenv/config'
+import pg from 'pg'
+
+const { Pool } = pg
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL 환경변수를 설정해 주세요.')
+}
+
+export const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+})
