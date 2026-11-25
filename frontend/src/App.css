@@ -76,11 +76,12 @@ td { padding: 4px 8px; }
 .final-result { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px clamp(16px, 2.7vw, 42px); min-height: 65px; padding: 8px; border-radius: 10px; background: var(--summary); font-size: 1.45rem; }
 .status { display: inline-flex; align-items: center; gap: 7px; padding: 3px 9px; border-radius: 999px; background: #fdecea; color: #bd201c; font-weight: 800; white-space: nowrap; }
 .status.met { color: #086c14; background: #e4fae4; }
+.status.not-applicable { color: #4b5563; background: #eef0f2; }
 .status-mark { display: inline-grid; width: 17px; height: 17px; place-items: center; font-size: 1.25rem; line-height: 1; }
 .met .status-mark, .status-final .status-mark { border-radius: 50%; color: #fff; background: #078814; }
 .met .status-mark { font-size: .8rem; }
 .status-final { padding: 0; background: transparent; font-size: 1.65rem; gap: 10px; }
-.status-final.met { background: transparent; }
+.status-final.met, .status-final.not-applicable { background: transparent; }
 .status-final .status-mark { width: 34px; height: 34px; font-size: 1.85rem; }
 .status-final.unmet .status-mark { background: #d92925; }
 

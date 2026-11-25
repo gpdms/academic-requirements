@@ -1,6 +1,17 @@
 import { useState } from 'react'
 import './App.css'
 
+const courseCategoryLabels = {
+  MAJOR: '전공',
+  MAJOR_REQUIRED: '전공필수',
+  TEACHING_THEORY: '교직이론',
+  TEACHING_LITERACY: '교직소양',
+  PRACTICUM: '교육실습',
+  TEACHING_OTHER: '기타교직',
+  THESIS: '논문',
+  NON_CREDIT: '비교과',
+}
+
 const icons = {
   cap: <path fill="currentColor" d="M1 8.5 12 4l11 4.5L12 13 4 9.7V17H2V9zm5 3.6 6 2.5 6-2.5v5.4c-3 3.2-9 3.2-12 0z" />,
   book: <path d="M12 5c-3-2-7-2-10 0v14c3-2 7-2 10 0 3-2 7-2 10 0V5c-3-2-7-2-10 0Zm0 0v14" />,
@@ -12,8 +23,15 @@ function Icon({ name }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke={name === 'cap' ? 'none' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icons[name]}</svg>
 }
 
+const statusStyles = {
+  충족: 'met',
+  미충족: 'unmet',
+  '해당 없음': 'not-applicable',
+  면제: 'not-applicable',
+}
+
 function Status({ status, final = false }) {
-  const style = status === '충족' ? 'met' : status === '미충족' ? 'unmet' : ''
+  const style = statusStyles[status] ?? ''
 
   return (
     <span className={`status ${style} ${final ? 'status-final' : ''}`}>
@@ -80,19 +98,7 @@ function Requirements({ type, icon, title, subtitle, result }) {
                 item.criteria,
                 <div>
                   <div>{item.actual ?? '—'}</div>
-                  {item.reason && <small>{item.reason}</small>}
-                  {item.source === 'saved' && (
-                    <div>
-                      <small>
-                        저장된 판정{item.evaluatedAt && ` · ${
-                          new Intl.DateTimeFormat('ko-KR', {
-                            timeZone: 'Asia/Seoul',
-                            dateStyle: 'medium',
-                          }).format(new Date(item.evaluatedAt))
-                        }`}
-                      </small>
-                    </div>
-                  )}
+                  {item.status !== '미충족' && item.reason && <small>{item.reason}</small>}
                 </div>,
                 <Status status={item.status} />,
               ],
@@ -160,10 +166,19 @@ const courseRows = data?.enrollments.map((row) => ({
     row.semester ?? '—',
     row.course_id,
     row.course_name,
-    row.course_category,
+    courseCategoryLabels[row.course_category] ?? '확인 필요',
     row.credits ?? '—',
   ],
 })) ?? []
+
+  const recognizedCourseRows = data?.recognizedCourses?.map((row) => ({
+    id: row.recognition_id,
+    cells: [
+      row.original_course_name,
+      courseCategoryLabels[row.course_category] ?? '—',
+      row.recognized_credits,
+    ],
+  })) ?? []
 
   return (
     <>
@@ -185,7 +200,7 @@ const courseRows = data?.enrollments.map((row) => ({
           <button type="submit" disabled={lookup === 'loading'}><Icon name="search" />조회</button>
         </form>
         <div className="lookup-message" role="status">
-          {lookup === null && '예시) 학번 252SEE16으로 조회할 수 있습니다.'}
+          {lookup === null && '예시) 학번 252SEE16, 252SEE05, 252SEE08'}
           {lookup === 'loading' && '조회 중입니다.'}
           {lookup === 'error' && '조회 중 오류가 발생했습니다. 다시 시도해 주세요.'}
           {lookup === 'invalid' && '학번을 영문과 숫자로 입력해 주세요.'}
@@ -204,6 +219,17 @@ const courseRows = data?.enrollments.map((row) => ({
               <div className="panel-body">
                 <DataTable titleId="courses-title" headers={['No', '학년도', '학기', '교과목코드', '교과목명', '이수구분', '학점']}
                   rows={courseRows} />
+              </div>
+            </section>
+            <section className="panel" aria-labelledby="recognized-courses-title">
+              <h2 id="recognized-courses-title"><Icon name="book" />학부 인정 학점 목록</h2>
+              <div className="panel-body">
+                {recognizedCourseRows.length > 0 ? (
+                  <DataTable titleId="recognized-courses-title"
+                    headers={['No', '과목명', '이수구분', '인정 학점']} rows={recognizedCourseRows} />
+                ) : (
+                  <p>등록된 학부 인정 학점이 없습니다.</p>
+                )}
               </div>
             </section>
             <div className="requirement-grid">
