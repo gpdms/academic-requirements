@@ -57,3 +57,7 @@ Desktop.ini
 *.temp
 *.swp
 *~
+
+#데이터
+sql_insert_data.sql
+sql_schema.sql

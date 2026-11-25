@@ -134,7 +134,10 @@ export default function App() {
     setLookup('loading')
 
     try {
-      const response = await fetch(`/api/students/${encodeURIComponent(id)}/academic-check`)
+      const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/+$/, '')
+      const response = await fetch(
+        `${apiBaseUrl}/api/students/${encodeURIComponent(id)}/academic-check`
+      )
 
       if (response.status === 404) {
         setLookup('missing')
